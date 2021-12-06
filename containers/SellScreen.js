@@ -21,6 +21,8 @@ import { Checkbox } from "react-native-paper";
 export default function SellScreen({ userToken }) {
   const [picker, setPicker] = useState(null);
 
+  console.log(userToken);
+
   const [title, setTitle] = useState();
   const [description, setDescription] = useState("");
   const [size, setSize] = useState("");

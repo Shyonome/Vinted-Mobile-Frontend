@@ -137,7 +137,7 @@ export default function App() {
                           headerStyle: { backgroundColor: "#FFFFFF" },
                         }}
                       >
-                        {() => <BuyerScreen userToken={userToken} /> }
+                        {() => <BuyerScreen /> }
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -189,7 +189,7 @@ export default function App() {
                           title: "Vends ton article",
                         }}
                       >
-                        {() => <SellScreen />}
+                        {() => <SellScreen userToken={userToken} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
