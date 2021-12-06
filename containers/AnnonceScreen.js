@@ -59,7 +59,7 @@ export default function AnnonceScreen() {
                   }}
                 >
                   <View style={[styles.row, styles.center]}>
-                    {item.owner.account.avatar.secure_url ? (
+                    {item.owner.account.avatar ? (
                       <Image
                         source={{ uri: item.owner.account.avatar.secure_url }}
                         style={[styles.avatar]}
@@ -70,7 +70,7 @@ export default function AnnonceScreen() {
                     )}
                     <Text numberOfLines={1} >{item.owner.account.username}</Text>
                   </View>
-                  {item.product_image.secure_url ? (
+                  {item.product_image ? (
                     <Image
                       source={{ uri: item.product_image.secure_url }}
                       style={[styles.offerImage]}

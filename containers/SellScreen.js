@@ -14,14 +14,12 @@ import { useNavigation } from "@react-navigation/core";
 import * as ImagePicker from "expo-image-picker";
 import { Dimensions } from "react-native";
 import Constants from "expo-constants";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Checkbox } from "react-native-paper";
 
 export default function SellScreen({ userToken }) {
   const [picker, setPicker] = useState(null);
-
-  console.log(userToken);
 
   const [title, setTitle] = useState();
   const [description, setDescription] = useState("");
@@ -33,7 +31,7 @@ export default function SellScreen({ userToken }) {
 
   const [checked, setChecked] = useState(false);
 
-  const getGaleryPermission = async () => {
+  const getGalleryPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status === "granted") {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -62,22 +60,23 @@ export default function SellScreen({ userToken }) {
   };
 
   const publish = async () => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("size", Number(size));
+    formData.append("brand", brand);
+    formData.append("condition", condition);
+    formData.append("price", Number(price));
+    if (picker) {
+      console.log(picker);
+      const tab = picker.split(".");
+      formData.append("picture", {
+        uri: picker,
+        name: `my-pic.${tab[1]}`,
+        type: `image/${tab[1]}`,
+      });
+    }
     try {
-      const formData = new FormData();
-      formData.append("title", { title: title });
-      formData.append("description", { description: description });
-      formData.append("size", { size: Number(size) });
-      formData.append("brand", { brand: brand });
-      formData.append("condition", { condition: condition });
-      formData.append("price", { price: Number(price) });
-      if (picker) {
-        const tab = picker.split(".");
-        formData.append("photo", {
-          uri: picker,
-          name: `my-pic.${tab[1]}`,
-          type: `image/${tab[1]}`,
-        });
-      }
       const response = await axios.post(
         "https://vinted-mobile.herokuapp.com/offer/publish",
         formData,
@@ -93,7 +92,7 @@ export default function SellScreen({ userToken }) {
         alert("Annonce publié");
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response.message.error)
     }
   };
 
@@ -103,7 +102,7 @@ export default function SellScreen({ userToken }) {
         <View style={[styles.imageView]}>
           <TouchableOpacity
             style={[styles.imagePicker]}
-            onPress={getGaleryPermission}
+            onPress={getGalleryPermission}
           >
             <Text style={[styles.imagePickerText]}>+ Ajouter photos</Text>
           </TouchableOpacity>
