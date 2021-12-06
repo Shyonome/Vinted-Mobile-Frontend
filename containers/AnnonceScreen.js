@@ -45,6 +45,7 @@ export default function AnnonceScreen() {
   ) : (
     <View style={[styles.view]}>
       <FlatList
+        numColumns={2}
         data={data.offers}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
@@ -114,16 +115,16 @@ export default function AnnonceScreen() {
 const styles = StyleSheet.create({
   view: {
     backgroundColor: "#FFFFFF",
+    height: "100%",
   },
 
   flatList: {
-    width: "40%",
+    width: "100%",
     marginTop: 15,
     marginBottom: 15,
     marginLeft: 20,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#09B1BA",
+    marginRight: 40,
+    paddingRight: 10,
   },
 
   row: {

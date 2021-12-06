@@ -135,14 +135,9 @@ export default function App() {
                         options={{
                           title: "",
                           headerStyle: { backgroundColor: "#FFFFFF" },
-                          headerTitleStyle: {
-                            color: "#09B1BA",
-                            fontWeight: "bold",
-                            fontSize: 30,
-                          },
                         }}
                       >
-                        {() => <BuyerScreen /> }
+                        {() => <BuyerScreen userToken={userToken} /> }
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -191,7 +186,7 @@ export default function App() {
                       <Stack.Screen
                         name="Sell"
                         options={{
-                          title: "Sell",
+                          title: "Vends ton article",
                         }}
                       >
                         {() => <SellScreen />}
