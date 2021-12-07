@@ -48,11 +48,13 @@ export default function BuyerScreen() {
   ) : (
     <View style={[styles.underView]}>
       <View style={[styles.view]}>
-        <Image
+        {data.product_image ? <Image
           style={[styles.offerImage, { marginBottom: 5 }]}
           source={{ uri: data.product_image.secure_url }}
-          resizeMode="cover"
-        />
+          resizeMode="contain"
+        /> : <View style={[{justifyContent:"center", alignItems: "center"}]} >
+          <Ionicons style={[{ marginBottom: 5 }]} name="help" size={150} color="black" />
+          </View>}
         <View style={[{ marginLeft: 15, paddingBottom: 10 }]}>
           <View
             style={[
@@ -62,14 +64,14 @@ export default function BuyerScreen() {
               styles.bottomBar,
             ]}
           >
-            {data.owner.account.avatar.secure_url ? (
+            {data.owner.account.avatar ? (
               <Image
                 source={{ uri: data.owner.account.avatar.secure_url }}
                 style={[styles.avatar]}
                 resizeMode="cover"
               />
             ) : (
-              <Ionicons name={"person-outline"} size={24} color="black" />
+              <Ionicons style={[{marginRight: 15}]} name={"person-outline"} size={24} color="black" />
             )}
             <Text>{data.owner.account.username}</Text>
           </View>
@@ -186,8 +188,8 @@ const styles = StyleSheet.create({
 
   message: {
     height: 50,
-    width: 365,
-    marginBottom: 10,
+    width: 335,
+    marginBottom: 5,
     borderRadius: 5,
     borderWidth: 1,
     borderStyle: "solid",
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
 
   buy: {
     height: 50,
-    width: 365,
+    width: 335,
     marginBottom: 10,
     borderRadius: 5,
     alignItems: "center",

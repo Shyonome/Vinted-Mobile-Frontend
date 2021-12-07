@@ -60,6 +60,7 @@ export default function SellScreen({ userToken }) {
   };
 
   const publish = async () => {
+    setError("");
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
@@ -77,22 +78,26 @@ export default function SellScreen({ userToken }) {
       });
     }
     try {
-      const response = await axios.post(
-        "https://vinted-mobile.herokuapp.com/offer/publish",
-        formData,
-        {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-            "Content-Type": "multipart/form-data",
-          },
+      if (!title || !description || !size || !brand || !condition || !price) {
+        setError("You must fill all inputs before publish !");
+      } else {
+        const response = await axios.post(
+          "https://vinted-mobile.herokuapp.com/offer/publish",
+          formData,
+          {
+            headers: {
+              authorization: `Bearer ${userToken}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response.data) {
+          console.log(response.data);
+          alert("Annonce publié");
         }
-      );
-      if (response.data) {
-        console.log(response.data);
-        alert("Annonce publié");
       }
     } catch (error) {
-      console.log(error.response.message.error)
+      console.log(error.response.message.error);
     }
   };
 
@@ -206,6 +211,10 @@ export default function SellScreen({ userToken }) {
         />
       </View>
 
+      {error ? (
+        <Text style={[{ color: "red", marginLeft: 15, marginBottom: 1 }]}>{error}</Text>
+      ) : null}
+
       <TouchableOpacity
         style={[styles.add, { marginLeft: 15 }]}
         onPress={publish}
@@ -289,9 +298,8 @@ const styles = StyleSheet.create({
 
   checkbox: {
     marginLeft: 15,
-    marginBottom: 5,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   add: {

@@ -62,11 +62,11 @@ export default function AnnonceScreen() {
                     {item.owner.account.avatar ? (
                       <Image
                         source={{ uri: item.owner.account.avatar.secure_url }}
-                        style={[styles.avatar]}
+                        style={[styles.avatar, {marginRight: 5}]}
                         resizeMode="cover"
                       />
                     ) : (
-                      <Ionicons name={"person-outline"} />
+                      <Ionicons style={[{marginRight: 5}]} name={"person-outline"} size={30} />
                     )}
                     <Text numberOfLines={1} >{item.owner.account.username}</Text>
                   </View>
@@ -76,7 +76,7 @@ export default function AnnonceScreen() {
                       style={[styles.offerImage]}
                       resizeMode="cover"
                     />
-                  ) : null}
+                  ) : <Ionicons name="help" size={190} color="black" />}
                 </TouchableOpacity>
                 {/*heart ? (
                   <Ionicons
@@ -101,7 +101,7 @@ export default function AnnonceScreen() {
                 <Text numberOfLines={1} >{item.product_details[0].MARQUE}</Text>
                 <Text numberOfLines={1} >
                   {item.product_details[1].TAILLE} /{" "}
-                  {item.product_details[3].COULEUR}
+                  {item.product_details[2].ÉTAT}
                 </Text>
               </View>
             </View>
@@ -116,15 +116,13 @@ const styles = StyleSheet.create({
   view: {
     backgroundColor: "#FFFFFF",
     height: "100%",
+    width: "100%",
+    alignItems: "center",
   },
 
   flatList: {
-    width: "100%",
     marginTop: 15,
-    marginBottom: 15,
-    marginLeft: 20,
-    marginRight: 40,
-    paddingRight: 10,
+    marginLeft: 10,
   },
 
   row: {
@@ -144,5 +142,6 @@ const styles = StyleSheet.create({
 
   offerImage: {
     height: 200,
+    width: 160
   },
 });
