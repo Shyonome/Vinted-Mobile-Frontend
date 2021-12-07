@@ -22,6 +22,8 @@ import ResearchScreen from "./containers/ResearchScreen";
 import SellScreen from "./containers/SellScreen";
 import AnnonceScreen from "./containers/AnnonceScreen";
 import BuyerScreen from "./containers/BuyScreen";
+import ClassScreen from "./containers/ClassScreen";
+import PriceScreen from "./containers/PriceScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -158,11 +160,33 @@ export default function App() {
                       <Stack.Screen
                         name="Research"
                         options={{
-                          title: "Research",
+                          title: "",
+                          headerShown: true,
                         }}
                       >
                         {() => <ResearchScreen />}
                       </Stack.Screen>
+
+                      <Stack.Screen
+                        name="Class"
+                        options={{
+                          title: "Classer par",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <ClassScreen /> }
+                      </Stack.Screen>
+
+                      <Stack.Screen
+                        name="Price"
+                        options={{
+                          title: "Prix",
+                          headerShown: true,
+                        }}
+                      >
+                        {() => <PriceScreen /> }
+                      </Stack.Screen>
+
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
