@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   flatList: {
     marginTop: 15,
     marginLeft: 10,
+    marginRight: 5,
   },
 
   row: {

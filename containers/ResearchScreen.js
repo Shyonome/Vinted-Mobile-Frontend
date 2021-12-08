@@ -19,17 +19,13 @@ import Constants from "expo-constants";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function ResearchScreen() {
+export default function ResearchScreen({ priceMin, priceMax }) {
   const navigation = useNavigation();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const [title, setTitle] = useState("");
-
-  const [priceMin, setPriceMin] = useState("");
-
-  const [priceMax, setPriceMax] = useState("");
 
   const [sort, setSort] = useState(false);
 
@@ -77,70 +73,88 @@ export default function ResearchScreen() {
     fetchData();
   }, [title, priceMin, priceMax, sort]);
 
-  return  isLoading ? (
+  return isLoading ? (
     <ActivityIndicator color="#09B1BA" size="large" />
   ) : (
-    <View style={[styles.view]} >
-      <View style={[styles.row, styles.bottomBar, styles.center]} >
-        <Ionicons name={"search"} size={20} color="gray" />
-        <TextInput
-          style={[styles.inputs]}
-          placeholder="ex: Costume spider-man"
-          onChangeText={(text) => {
-            setTitle(text);
-          }}
-          value={title}
-        />
-      </View>
-      <TouchableOpacity onPress={() => {
-        navigation.navigate("Class", {setSort})
-      }} >
-        <Text>Classer par</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-        navigation.navigate("Price")
-      }} >
-        <Text>Prix</Text>
-      </TouchableOpacity>
-      <View style={[{flexDirection: "column"}]} >
-      <Text>{data.count} résultats</Text>
-      </View>
+    <View>
       <View style={[styles.view]} >
-      <FlatList
-        numColumns={2}
-        data={data.offers}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => {
-          return (
-            <View>
-              <View style={[styles.flatList]}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    navigation.navigate("Buyer", { offerId: item._id});
-                  }}
-                >
-                  <View style={[styles.row, styles.center]}>
-                    {item.owner.account.avatar ? (
+        <View style={[styles.row, styles.center, {height: 50, marginLeft: 15}]}>
+          <Ionicons name={"search"} size={20} color="gray" />
+          <TextInput
+            style={[styles.inputs]}
+            placeholder="ex: Costume spider-man"
+            onChangeText={(text) => {
+              setTitle(text);
+            }}
+            value={title}
+          />
+        </View>
+        <View style={[styles.class, {marginLeft: 15}]}>
+          <TouchableOpacity
+            style={[styles.button]}
+            onPress={() => {
+              navigation.navigate("Class");
+            }}
+          >
+            <Text>Classer par</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button]}
+            onPress={() => {
+              navigation.navigate("Price");
+            }}
+          >
+            <Text>Prix</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={[{ marginLeft: 15 }]}>
+          <Text>{data.count} résultats</Text>
+        </View>
+      </View>
+      <View style={[styles.underView]}>
+        <FlatList
+          numColumns={2}
+          data={data.offers}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => {
+            return (
+              <View>
+                <View style={[styles.flatList]}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      navigation.navigate("Buyer", { offerId: item._id });
+                    }}
+                  >
+                    <View style={[styles.row, styles.center]}>
+                      {item.owner.account.avatar ? (
+                        <Image
+                          source={{ uri: item.owner.account.avatar.secure_url }}
+                          style={[styles.avatar, { marginRight: 5 }]}
+                          resizeMode="cover"
+                        />
+                      ) : (
+                        <Ionicons
+                          style={[{ marginRight: 5 }]}
+                          name={"person-outline"}
+                          size={30}
+                        />
+                      )}
+                      <Text numberOfLines={1}>
+                        {item.owner.account.username}
+                      </Text>
+                    </View>
+                    {item.product_image ? (
                       <Image
-                        source={{ uri: item.owner.account.avatar.secure_url }}
-                        style={[styles.avatar, {marginRight: 5}]}
+                        source={{ uri: item.product_image.secure_url }}
+                        style={[styles.offerImage]}
                         resizeMode="cover"
                       />
                     ) : (
-                      <Ionicons style={[{marginRight: 5}]} name={"person-outline"} size={30} />
+                      <Ionicons name="help" size={190} color="black" />
                     )}
-                    <Text numberOfLines={1} >{item.owner.account.username}</Text>
-                  </View>
-                  {item.product_image ? (
-                    <Image
-                      source={{ uri: item.product_image.secure_url }}
-                      style={[styles.offerImage]}
-                      resizeMode="cover"
-                    />
-                  ) : <Ionicons name="help" size={190} color="black" />}
-                </TouchableOpacity>
-                {/*heart ? (
+                  </TouchableOpacity>
+                  {/*heart ? (
                   <Ionicons
                     name="heart"
                     size={20}
@@ -159,17 +173,19 @@ export default function ResearchScreen() {
                     }}
                   />
                 )*/}
-                <Text numberOfLines={1} >{item.product_price} €</Text>
-                <Text numberOfLines={1} >{item.product_details[0].MARQUE}</Text>
-                <Text numberOfLines={1} >
-                  {item.product_details[1].TAILLE} /{" "}
-                  {item.product_details[2].ÉTAT}
-                </Text>
+                  <Text numberOfLines={1}>{item.product_price} €</Text>
+                  <Text numberOfLines={1}>
+                    {item.product_details[0].MARQUE}
+                  </Text>
+                  <Text numberOfLines={1}>
+                    {item.product_details[1].TAILLE} /{" "}
+                    {item.product_details[2].ÉTAT}
+                  </Text>
+                </View>
               </View>
-            </View>
-          );
-        }}
-      />
+            );
+          }}
+        />
       </View>
     </View>
   );
@@ -178,17 +194,31 @@ export default function ResearchScreen() {
 const styles = StyleSheet.create({
   view: {
     backgroundColor: "#FFFFFF",
+  },
+
+  underView: {
+    backgroundColor: "#FFFFFF",
     height: "100%",
     width: "100%",
     alignItems: "center",
   },
 
+  class: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+    marginBottom: 5,
+    marginTop: 5,
+  },
+
   inputs: {
-    height: 15,
-    width: 160,
+    height: 35,
+    width: 170,
     marginBottom: 30,
     marginTop: 30,
+    paddingLeft: 10,
+    borderRadius: 5,
     color: "black",
+    backgroundColor: "#EBEBEB",
   },
 
   bottomBar: {
@@ -197,9 +227,24 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E5E5E5",
   },
 
+  button: {
+    height: 30,
+    width: 80,
+    marginBottom: 10,
+    marginRight: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#D7D7D7",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+  },
+
   flatList: {
     marginTop: 15,
     marginLeft: 10,
+    marginRight: 5,
   },
 
   row: {
@@ -219,6 +264,6 @@ const styles = StyleSheet.create({
 
   offerImage: {
     height: 200,
-    width: 160
+    width: 160,
   },
 });

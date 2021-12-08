@@ -6,9 +6,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Platform, StyleSheet } from "react-native";
+import {
+  Dimensions,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  Image,
+  FlatList,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Dimensions } from "react-native";
 import Constants from "expo-constants";
 import axios from "axios";
 
@@ -31,6 +42,8 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [priceMin, setPriceMin] = useState("");
+  const [priceMax, setPriceMax] = useState("");
 
   const setToken = async (token) => {
     if (token) {
@@ -160,11 +173,10 @@ export default function App() {
                       <Stack.Screen
                         name="Research"
                         options={{
-                          title: "",
                           headerShown: true,
                         }}
                       >
-                        {() => <ResearchScreen />}
+                        {() => <ResearchScreen priceMin={priceMin} priceMax={priceMax} />}
                       </Stack.Screen>
 
                       <Stack.Screen
@@ -184,7 +196,7 @@ export default function App() {
                           headerShown: true,
                         }}
                       >
-                        {() => <PriceScreen /> }
+                        {() => <PriceScreen setPriceMin={setPriceMin} priceMin={priceMin} setPriceMax={setPriceMax} priceMax={priceMax} /> }
                       </Stack.Screen>
 
                     </Stack.Navigator>

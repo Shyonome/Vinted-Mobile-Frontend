@@ -20,7 +20,7 @@ import {
   import axios from "axios";
 
 export default function ClassScreen({ setToken }) {
-    const { params } = useRoute();
+    const navigation = useNavigation();
     return (
       <View>
         <Text>Class Screen</Text>
