@@ -22,7 +22,7 @@ import axios from "axios";
 export default function PriceScreen({ setPriceMin, priceMin, setPriceMax, priceMax }) {
   const navigation = useNavigation();
   return (
-    <View>
+    <View style={[styles.view]} >
       <View style={[styles.row, {marginTop: 10, alignItems: "center"}]}>
         <View style={[{ width: 90 }]}>
           <Text>Prix minimum</Text>
@@ -62,6 +62,12 @@ export default function PriceScreen({ setPriceMin, priceMin, setPriceMax, priceM
 }
 
 const styles = StyleSheet.create({
+  view: {
+    backgroundColor: "#FFFFFF",
+    height: "100%",
+    width: "100%",
+  },
+
   row: {
     flexDirection: "row",
     justifyContent: "space-around",

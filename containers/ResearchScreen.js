@@ -19,15 +19,13 @@ import Constants from "expo-constants";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function ResearchScreen({ priceMin, priceMax }) {
+export default function ResearchScreen({ priceMin, priceMax, sort, sortByDate }) {
   const navigation = useNavigation();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const [title, setTitle] = useState("");
-
-  const [sort, setSort] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {

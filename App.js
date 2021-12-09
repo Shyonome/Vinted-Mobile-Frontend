@@ -45,6 +45,10 @@ export default function App() {
   const [priceMin, setPriceMin] = useState("");
   const [priceMax, setPriceMax] = useState("");
 
+  const [sort, setSort] = useState("");
+
+  const [sortByDate, setSortByDate] = useState("");
+
   const setToken = async (token) => {
     if (token) {
       await AsyncStorage.setItem("userToken", token);
@@ -176,7 +180,7 @@ export default function App() {
                           headerShown: true,
                         }}
                       >
-                        {() => <ResearchScreen priceMin={priceMin} priceMax={priceMax} />}
+                        {() => <ResearchScreen priceMin={priceMin} priceMax={priceMax} sort={sort} sortByDate={sortByDate} />}
                       </Stack.Screen>
 
                       <Stack.Screen
@@ -186,7 +190,7 @@ export default function App() {
                           headerShown: true,
                         }}
                       >
-                        {() => <ClassScreen /> }
+                        {() => <ClassScreen setSort={setSort} sort={sort} setSortByDate={setSortByDate} sortByDate={sortByDate} /> }
                       </Stack.Screen>
 
                       <Stack.Screen
@@ -250,10 +254,10 @@ export default function App() {
                       <Stack.Screen
                         name="Profile"
                         options={{
-                          title: "Profile",
+                          title: "",
                         }}
                       >
-                        {() => <ProfileScreen setToken={setToken} />}
+                        {() => <ProfileScreen setToken={setToken} userToken={userToken} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

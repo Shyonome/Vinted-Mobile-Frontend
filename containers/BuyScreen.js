@@ -41,8 +41,6 @@ export default function BuyerScreen() {
     fetchData();
   }, []);
 
-  console.log(data);
-
   return isLoading ? (
     <ActivityIndicator color="#09B1BA" size="large" />
   ) : (
