@@ -26,8 +26,8 @@ export default function ProfileScreen({ setToken, userToken }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [picture, setPicture] = useState();
   const [picker, setPicker] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const profile = async () => {
@@ -65,14 +65,28 @@ export default function ProfileScreen({ setToken, userToken }) {
 
   const update = async () => {
     try {
-      if (email && username && password) {
-        const formData = new FormData();
+      setError("");
+      const formData = new FormData();
+      if (!email) {
+        setError("Email required");
+      } else {
         formData.append("email", email);
+      }
+      if (username) {
         formData.append("username", username);
+      }
+      if (password) {
         formData.append("password", password);
-        if (picture) {
-          formData.append("picture", picture);
-        }
+      }
+      if (picker) {
+        const tab = picker.split(".");
+        formData.append("picture", {
+          uri: picker,
+          name: `my-pic.${tab[1]}`,
+          type: `image/${tab[1]}`,
+        });
+      }
+      if (email && (username || password || picker)) {
         const response = await axios.post(
           "https://vinted-mobile.herokuapp.com/update",
           formData,
@@ -82,9 +96,10 @@ export default function ProfileScreen({ setToken, userToken }) {
             },
           }
         );
-        if (response.data) {
+        if (response.data && !error) {
           //console.log(response.data);
           setData(response.data);
+          alert("Modifications saved");
         }
       }
     } catch (error) {
@@ -107,8 +122,13 @@ export default function ProfileScreen({ setToken, userToken }) {
           },
         ]}
       >
-        {profile.account.avatar ? (
-          <TouchableOpacity onPress={getCameraPermission} >
+        { picker ? (
+          <Image
+            style={[styles.userImage, { marginBottom: 5 }]}
+            source={{ uri: picker }}
+          />
+        ) : profile.account.avatar ? (
+          <TouchableOpacity onPress={getCameraPermission}>
             <Image
               style={[styles.userImage, { marginBottom: 5 }]}
               source={{ uri: profile.account.avatar.secure_url }}
@@ -126,7 +146,7 @@ export default function ProfileScreen({ setToken, userToken }) {
               },
             ]}
           >
-            <TouchableOpacity onPress={getCameraPermission} >
+            <TouchableOpacity onPress={getCameraPermission}>
               <Ionicons
                 style={[{ marginBottom: 5 }]}
                 name="help"
@@ -171,6 +191,7 @@ export default function ProfileScreen({ setToken, userToken }) {
         />
       </View>
       <View style={[{ width: "100%", alignItems: "center", marginTop: 90 }]}>
+        <Text style={[{color: "red"}]} >{error}</Text>
         <TouchableOpacity style={[styles.submit]} onPress={update}>
           <Text style={[styles.submitText]}>Sauvegarder les modifications</Text>
         </TouchableOpacity>
