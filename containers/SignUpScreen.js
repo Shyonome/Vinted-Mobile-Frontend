@@ -41,7 +41,7 @@ export default function SignUpScreen({ setToken }) {
           }
         );
         if (response.data) {
-          console.log(response.data);
+          //console.log(response.data);
           setData(response.data);
           setToken(response.data.token);
         }

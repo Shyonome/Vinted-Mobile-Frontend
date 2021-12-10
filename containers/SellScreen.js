@@ -92,7 +92,7 @@ export default function SellScreen({ userToken }) {
           }
         );
         if (response.data) {
-          console.log(response.data);
+          //console.log(response.data);
           alert("Annonce publié");
         }
       }
@@ -201,7 +201,8 @@ export default function SellScreen({ userToken }) {
         />
       </View>
 
-      <View style={[styles.checkbox]}>
+        <View style={[{width: "100%", alignItems: "center"}]} >
+      <View style={[styles.checkbox, {alignItems: "center"}]}>
         <Text>Je ne suis pas intéressé(e) par les échanges</Text>
         <Checkbox
           status={checked ? "checked" : "unchecked"}
@@ -216,11 +217,12 @@ export default function SellScreen({ userToken }) {
       ) : null}
 
       <TouchableOpacity
-        style={[styles.add, { marginLeft: 15 }]}
+        style={[styles.add]}
         onPress={publish}
       >
         <Text style={[styles.addText]}>Ajouter</Text>
       </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -261,7 +263,7 @@ const styles = StyleSheet.create({
   inputsView: {
     height: 130,
     width: "100%",
-    marginBottom: 10,
+    marginBottom: 5,
     justifyContent: "center",
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5",
@@ -271,7 +273,7 @@ const styles = StyleSheet.create({
   inputsView2: {
     height: 200,
     width: "100%",
-    marginBottom: 10,
+    marginBottom: 5,
     justifyContent: "center",
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5",
@@ -281,7 +283,6 @@ const styles = StyleSheet.create({
   inputsView3: {
     height: 80,
     width: "100%",
-    marginBottom: 5,
     justifyContent: "center",
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5",

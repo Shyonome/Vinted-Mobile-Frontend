@@ -16,7 +16,7 @@ export default function HomeScreen() {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://vinted-mobile.herokuapp.com/offers?limit=8');
-        console.log(response.data);
+        //console.log(response.data);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {

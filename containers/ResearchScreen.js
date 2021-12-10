@@ -19,7 +19,12 @@ import Constants from "expo-constants";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function ResearchScreen({ priceMin, priceMax, sort, sortByDate }) {
+export default function ResearchScreen({
+  priceMin,
+  priceMax,
+  sort,
+  sortByDate,
+}) {
   const navigation = useNavigation();
 
   const [data, setData] = useState();
@@ -46,7 +51,7 @@ export default function ResearchScreen({ priceMin, priceMax, sort, sortByDate })
           }
           filters = filters + `priceMax=${priceMax}`;
         }
-        if (sort) {
+        if (sort === "price-asc") {
           if (filters) {
             filters = filters + "&";
           }
@@ -60,7 +65,7 @@ export default function ResearchScreen({ priceMin, priceMax, sort, sortByDate })
         const response = await axios.get(
           `https://vinted-mobile.herokuapp.com/offers?${filters}`
         );
-        console.log(response.data);
+        //console.log(response.data);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -75,41 +80,47 @@ export default function ResearchScreen({ priceMin, priceMax, sort, sortByDate })
     <ActivityIndicator color="#09B1BA" size="large" />
   ) : (
     <View>
-      <View style={[styles.view]} >
-        <View style={[styles.row, styles.center, {height: 50, marginLeft: 15}]}>
-          <Ionicons name={"search"} size={20} color="gray" />
-          <TextInput
-            style={[styles.inputs]}
-            placeholder="ex: Costume spider-man"
-            onChangeText={(text) => {
-              setTitle(text);
-            }}
-            value={title}
-          />
-        </View>
-        <View style={[styles.class, {marginLeft: 15}]}>
-          <TouchableOpacity
-            style={[styles.button]}
-            onPress={() => {
-              navigation.navigate("Class");
-            }}
-          >
-            <Text>Classer par</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button]}
-            onPress={() => {
-              navigation.navigate("Price");
-            }}
-          >
-            <Text>Prix</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={[{ marginLeft: 15 }]}>
-          <Text>{data.count} résultats</Text>
-        </View>
-      </View>
       <View style={[styles.underView]}>
+          <View style={[styles.view]}>
+            <View
+              style={[
+                styles.row,
+                styles.center,
+                { height: 50, marginLeft: 15 },
+              ]}
+            >
+              <Ionicons name={"search"} size={20} color="gray" />
+              <TextInput
+                style={[styles.inputs]}
+                placeholder="ex: Costume spider-man"
+                onChangeText={(text) => {
+                  setTitle(text);
+                }}
+                value={title}
+              />
+            </View>
+            <View style={[styles.class, { marginLeft: 15 }]}>
+              <TouchableOpacity
+                style={[styles.button]}
+                onPress={() => {
+                  navigation.navigate("Class");
+                }}
+              >
+                <Text>Classer par</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button]}
+                onPress={() => {
+                  navigation.navigate("Price");
+                }}
+              >
+                <Text>Prix</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[{ marginLeft: 15 }]}>
+              <Text>{data.count} résultats</Text>
+            </View>
+          </View>
         <FlatList
           numColumns={2}
           data={data.offers}
@@ -192,6 +203,7 @@ export default function ResearchScreen({ priceMin, priceMax, sort, sortByDate })
 const styles = StyleSheet.create({
   view: {
     backgroundColor: "#FFFFFF",
+    width: 360,
   },
 
   underView: {
@@ -241,7 +253,7 @@ const styles = StyleSheet.create({
 
   flatList: {
     marginTop: 15,
-    marginLeft: 10,
+    marginLeft: 25,
     marginRight: 5,
   },
 

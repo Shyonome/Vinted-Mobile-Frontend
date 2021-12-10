@@ -31,7 +31,7 @@ export default function BuyerScreen() {
         const response = await axios.get(
           `https://vinted-mobile.herokuapp.com/offer/${params.offerId}`
         );
-        console.log(response.data);
+        //console.log(response.data);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -46,13 +46,22 @@ export default function BuyerScreen() {
   ) : (
     <View style={[styles.underView]}>
       <View style={[styles.view]}>
-        {data.product_image ? <Image
-          style={[styles.offerImage, { marginBottom: 5 }]}
-          source={{ uri: data.product_image.secure_url }}
-          resizeMode="contain"
-        /> : <View style={[{justifyContent:"center", alignItems: "center"}]} >
-          <Ionicons style={[{ marginBottom: 5 }]} name="help" size={150} color="black" />
-          </View>}
+        {data.product_image ? (
+          <Image
+            style={[styles.offerImage, { marginBottom: 5 }]}
+            source={{ uri: data.product_image.secure_url }}
+            resizeMode="contain"
+          />
+        ) : (
+          <View style={[{ justifyContent: "center", alignItems: "center" }]}>
+            <Ionicons
+              style={[{ marginBottom: 5 }]}
+              name="help"
+              size={150}
+              color="black"
+            />
+          </View>
+        )}
         <View style={[{ marginLeft: 15, paddingBottom: 10 }]}>
           <View
             style={[
@@ -69,7 +78,12 @@ export default function BuyerScreen() {
                 resizeMode="cover"
               />
             ) : (
-              <Ionicons style={[{marginRight: 15}]} name={"person-outline"} size={24} color="black" />
+              <Ionicons
+                style={[{ marginRight: 15 }]}
+                name={"person-outline"}
+                size={24}
+                color="black"
+              />
             )}
             <Text>{data.owner.account.username}</Text>
           </View>
@@ -91,7 +105,7 @@ export default function BuyerScreen() {
         </View>
       </View>
       <View style={[styles.view, { marginTop: 10 }]}>
-        <View style={[{ marginLeft: 15 }]}>
+        <View>
           <View
             style={[
               styles.row,
@@ -101,6 +115,7 @@ export default function BuyerScreen() {
             <View style={[styles.row]}>
               {heart ? (
                 <Ionicons
+                style={[{ marginRight: 5 }]}
                   name="heart"
                   size={20}
                   color="red"
@@ -110,6 +125,7 @@ export default function BuyerScreen() {
                 />
               ) : (
                 <Ionicons
+                style={[{ marginRight: 5 }]}
                   name="heart-outline"
                   size={20}
                   color="black"
@@ -119,12 +135,12 @@ export default function BuyerScreen() {
                 />
               )}
             </View>
-            <View style={[styles.row, { marginRight: 60 }]}>
+            <View style={[styles.row, { marginRight: 90 }]}>
               <TouchableOpacity style={[]}>
                 <Text>Favoris</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={[styles.row]} >
+            <TouchableOpacity style={[styles.row]}>
               <Ionicons
                 style={[{ marginRight: 5 }]}
                 name="share-social"
@@ -134,7 +150,7 @@ export default function BuyerScreen() {
               <Text>Partager</Text>
             </TouchableOpacity>
           </View>
-          <View>
+          <View style={[{ width: "100%", alignItems: "center" }]}>
             <TouchableOpacity style={[styles.message]} activeOpacity={0.5}>
               <Text style={[styles.messageText]}>Envoyer un message</Text>
             </TouchableOpacity>
@@ -155,7 +171,7 @@ const styles = StyleSheet.create({
 
   underView: {
     justifyContent: "space-between",
-    height: "95%"
+    height: "95%",
   },
 
   row: {
@@ -186,7 +202,7 @@ const styles = StyleSheet.create({
 
   message: {
     height: 50,
-    width: 335,
+    width: 365,
     marginBottom: 5,
     borderRadius: 5,
     borderWidth: 1,
@@ -202,7 +218,7 @@ const styles = StyleSheet.create({
 
   buy: {
     height: 50,
-    width: 335,
+    width: 365,
     marginBottom: 10,
     borderRadius: 5,
     alignItems: "center",
